@@ -2,11 +2,13 @@
 Is your device a low RAM device? You decide! Requires Xposed.
 
 ###How it works:
-This all revolves around KitKat's new feature, [`ActivityManager.isLowRamDevice();`](http://developer.android.com/reference/android/app/ActivityManager.html#isLowRamDevice()) and its Support Library wrapper, [`ActivityManagerCompat.isLowRamDevice(ActivityManager am)`](http://developer.android.com/reference/android/support/v4/app/ActivityManagerCompat.html#isLowRamDevice(android.app.ActivityManager))
+This all revolves around KitKat's new feature,
+[`ActivityManager.isLowRamDevice();`](http://developer.android.com/reference/android/app/ActivityManager.html#isLowRamDevice()) and its Support Library wrapper, [`ActivityManagerCompat.isLowRamDevice(ActivityManager am)`](http://developer.android.com/reference/android/support/v4/app/ActivityManagerCompat.html#isLowRamDevice(android.app.ActivityManager))
 
 So in 4.4+, the code looks like this:
 
-android.app.ActivityManager  [(source)](https://github.com/android/platform_frameworks_base/blob/kitkat-release/core/java/android/app/ActivityManager.java#L436-L450)
+android.app.ActivityManager
+[(source)](https://github.com/android/platform_frameworks_base/blob/kitkat-release/core/java/android/app/ActivityManager.java#L436-L450)
 
 ```java
     /**
@@ -28,7 +30,8 @@ android.app.ActivityManager  [(source)](https://github.com/android/platform_fram
 
 And the Support Library wrapper looks like this: 
 
-android.support.v4.app.ActivityManagerCompat [(source)](https://github.com/android/platform_frameworks_support/blob/master/v4/java/android/support/v4/app/ActivityManagerCompat.java#L31-L43)
+android.support.v4.app.ActivityManagerCompat 
+[(source)](https://github.com/android/platform_frameworks_support/blob/master/v4/java/android/support/v4/app/ActivityManagerCompat.java#L31-L43)
 
 ```java
     /**
@@ -56,22 +59,24 @@ android.support.v4.app.ActivityManagerCompatKitKat
 
 -
 
-Notice how any device below KitKat **always returns false**. Obviously, it makes sense, because wouldn't it slow down the device
-if you are constantly checking the screen size and RAM? And on KitKat+, it checks `build.prop` for `ro.config.low_ram`. While you
-can always change the build.prop since you're likely already rooted, it is a pain to do that.
+Notice how any device below KitKat **always returns false**. Obviously, it makes sense, because wouldn't it slow down
+the device if you are constantly checking the screen size and RAM? And on KitKat+, it checks `build.prop` for
+`ro.config.low_ram`. While you can always change the build.prop since you're likely already rooted, it is a pain to
+do so.
 
 This changes that!!
 
-Now, you can toggle that to be true, false, or just use the default implementation. No `build.prop` editing, and it works on every version
-of Android (but many apps don't actually call that on older devices and just use it to prevent that nasty `VerifyError`, because it will
-always return false. However, it is very useful on KitKat and above. All changes are made live once a package is (re)started, but you
-are always better off rebooting.
+Now, you can toggle that to be true, false, or just use the default implementation. No `build.prop` editing, and it
+works on every version of Android (but many apps don't actually call that on older devices and just use it to prevent
+that nasty `VerifyError`, because it will always return false). However, it is very useful on KitKat and above. All
+changes *should be* made live once a package is (re)started, but you are always better off rebooting.
 
 ####Warning!
-Obviously, just like other Xposed modules and device modifications, use this at your own risk. I'm not going to go on about not being responsible 
-for bricked devices, thermonuclear war, or failed alarm clock apps, but you get the gist. I don't see any negative side effects to this,
-the worst I see could potentially happen is a system app for an OEM ROM going beserk because it expects isLowRamDevice() to return true or false,
-but worst case scenario, you can disable it.
+Obviously, just like other Xposed modules and device modifications, use this at your own risk. I'm not going to go on
+about not being responsible for bricked devices, thermonuclear war, or failed alarm clock apps, but you get the gist.
+I don't think there will be any negative side effects to this, however, the worst I see could potentially happen is a
+system app for an OEM ROM going beserk because it expects isLowRamDevice() to return true or false, but worst case
+scenario, you can disable it.
 
 ####TODO:
 * Per-app toggling
