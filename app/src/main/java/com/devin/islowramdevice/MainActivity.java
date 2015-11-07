@@ -56,22 +56,23 @@ public class MainActivity extends PreferenceActivity {
 							}
 						});
 						// Show the icon on KK and below.
-						if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+						if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+							
 							Drawable drawable = getResources().getDrawable(android.R.drawable.ic_dialog_info);
-							int editTextColor = 0x222222;
-							TypedArray themeArray = getTheme().obtainStyledAttributes(new int[] {android.R.attr.textColorSecondaryNoDisable});
-							try {
+							// Tint the icon on the light dialogs of Holo Light so they don't look awkward.
+							if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+								int iconColor = 0x222222;
+								TypedArray themeArray = getTheme().obtainStyledAttributes(new int[] {android.R.attr.textColorSecondaryNoDisable});
+								 try {
 									int index = 0;
 									int defaultColorValue = 0;
-									editTextColor = themeArray.getColor(index, defaultColorValue);
+									iconColor = themeArray.getColor(index, defaultColorValue);
 								}
 								finally { 
-								// Calling recycle() is important. Especially if you use alot of TypedArrays 
-								// http://stackoverflow.com/a/13805641/8524
 								themeArray.recycle();
 							}
-							drawable.setColorFilter(editTextColor, PorterDuff.Mode.SRC_ATOP);
-							
+							drawable.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
+							}
 						builder.setIcon(drawable);
 						}
 						builder.show();
@@ -94,6 +95,7 @@ public class MainActivity extends PreferenceActivity {
 						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 							msg += "<font color=\"black\">am</font><font color=\"#0096ff\">.</font>isLowRamDevice<font color=\"#0096ff\">() =</font> <font color=\"#bc0000\">" + (KitKatHelper.isLowRamDevice(am) ? "true" : "false") + "</font><font color=\"#2c82c8\">;</font><p>";
 						}
+
 						msg += "<font color=\"#0096ff\">ActivityManagerCompat.</font><font color=\"black\">isLowRamDevice</font><font color=\"#0096ff\">(</font><font color=\"black\">am</font><font color=\"#0096ff\">) =</font> <font color=\"#bc0000\">" + (ActivityManagerCompat.isLowRamDevice(am) ? "true" : "false") + "</font><font color=\"#0096ff\">;</font>";
 						
 						AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
@@ -101,6 +103,7 @@ public class MainActivity extends PreferenceActivity {
 								.setMessage("Loading…")
 								.setPositiveButton(android.R.string.ok, null)
 								.show();
+
 						FrameLayout layout = (FrameLayout) dialog.findViewById(android.R.id.custom);
 					
 						TextView tv = new TextView(MainActivity.this);
@@ -121,7 +124,6 @@ public class MainActivity extends PreferenceActivity {
 
 				@Override
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					
 					pref_is_low_ram.setSummary(pref_is_low_ram.getEntries()[pref_is_low_ram.findIndexOfValue((String) newValue)]);
 					return true;
 				}
