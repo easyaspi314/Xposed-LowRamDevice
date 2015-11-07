@@ -82,4 +82,3 @@ scenario, you can disable it.
 * Per-app toggling
 * Failproofing. Would be hard because we are already catching all Throwables without logging (we don't want to spam the logs with ClassNotFound errors
 due to apps not actually implementing it in the Support Library
-* Testing. I don't actually have a KK+ device, I can custom ROM one of them, but I am doing this from 4.1.2.
