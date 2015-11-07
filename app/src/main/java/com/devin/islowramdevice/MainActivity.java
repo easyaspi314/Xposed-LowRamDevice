@@ -21,12 +21,11 @@ import android.widget.FrameLayout;
 
 public class MainActivity extends PreferenceActivity {
 	
-	@SuppressLint("deprecation") // I don't feel like making a Fragment for this.
+	@SuppressLint("deprecation")
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.prefs);
+    protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		addPreferencesFromResource(R.xml.prefs);
 		
 		getPreferenceManager().setSharedPreferencesMode(MODE_WORLD_READABLE);
 		getPreferenceManager().setDefaultValues(this, R.xml.prefs, false);
