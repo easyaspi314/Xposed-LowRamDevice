@@ -3,7 +3,9 @@ Is your device a low RAM device? You decide! Requires Xposed.
 
 ###How it works:
 This all revolves around KitKat's new feature,
-[`ActivityManager.isLowRamDevice();`](http://developer.android.com/reference/android/app/ActivityManager.html#isLowRamDevice()) and its Support Library wrapper, [`ActivityManagerCompat.isLowRamDevice(ActivityManager am)`](http://developer.android.com/reference/android/support/v4/app/ActivityManagerCompat.html#isLowRamDevice(android.app.ActivityManager))
+[`ActivityManager.isLowRamDevice();`](http://developer.android.com/reference/android/app/ActivityManager.html#isLowRamDevice())
+and its Support Library wrapper,
+[`ActivityManagerCompat.isLowRamDevice(ActivityManager am)`](http://developer.android.com/reference/android/support/v4/app/ActivityManagerCompat.html#isLowRamDevice(android.app.ActivityManager))
 
 So in 4.4+, the code looks like this:
 
@@ -66,10 +68,11 @@ do so.
 
 This changes that!!
 
-Now, you can toggle that to be true, false, or just use the default implementation. No `build.prop` editing, and it
-works on every version of Android (but many apps don't actually call that on older devices and just use it to prevent
-that nasty `VerifyError`, because it will always return false). However, it is very useful on KitKat and above. All
-changes *should be* made live once a package is (re)started, but you are always better off rebooting.
+Now, you can toggle that to be true, false, or just use the default implementation. Just go to the Xposed Modules tab
+and click on isLowRamDevice to open the settings. No `build.prop` editing, and it works on every version of Android
+(but many apps don't actually call that on older devices and just use it to prevent that nasty `VerifyError`, because
+it will always return false). However, it is very useful on KitKat and above. All changes *should be* made live once a
+package is (re)started, but you are always better off rebooting, just like all Xposed modules.
 
 ####Warning!
 Obviously, just like other Xposed modules and device modifications, use this at your own risk. I'm not going to go on
@@ -80,5 +83,6 @@ scenario, you can disable it.
 
 ####TODO:
 * Per-app toggling
-* Failproofing. Would be hard because we are already catching all Throwables without logging (we don't want to spam the logs with ClassNotFound errors
-due to apps not actually implementing it in the Support Library
+* Failproofing. Would be hard because we are already catching all Throwables without logging. We really don't want to 
+throw each time because... it would throw a stack in the logs on every app we start sans ones that actually implement
+it in the Support Library and it would spam so much it would be impossible to find a useful log.
