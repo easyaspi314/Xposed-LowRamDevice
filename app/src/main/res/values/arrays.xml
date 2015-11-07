@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="pref_is_low_ram_entries">
+		<item>@string/pref_default_is_low_ram</item>
+		<item>@string/pref_this_is_low_ram</item>
+		<item>@string/pref_not_is_low_ram</item>
+	</string-array>
+	<string-array name="pref_is_low_ram_values">
+		<item>default</item>
+		<item>true</item>
+		<item>false</item>
+	</string-array>
+</resources>

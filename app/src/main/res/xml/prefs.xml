@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<CheckBoxPreference
+		android:key="expert_mode"
+		android:title="@string/pref_expert_mode"
+		android:summaryOn="@string/pref_expert_mode_summary_on"
+		android:summaryOff="@string/pref_expert_mode_summary_off"
+		android:defaultValue="false"/>
+	<ListPreference
+		android:key="is_low_ram"
+		android:title="@string/pref_is_low_ram"
+		android:summary="%s"
+		android:defaultValue="default"
+		android:entries="@array/pref_is_low_ram_entries"
+		android:entryValues="@array/pref_is_low_ram_values"/>
+	<Preference
+		android:key="info_is_low_ram"
+		android:title="@string/pref_info_is_low_ram"
+		android:summary="@string/pref_info_is_low_ram_summary"/>
+	
+</PreferenceScreen>

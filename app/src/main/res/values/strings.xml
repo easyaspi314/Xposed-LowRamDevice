@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Low RAM Device</string>
+	<string name="app_description">Is your phone a low-ram device? You decide!</string>
+    <string name="pref_expert_mode">Expert Mode</string>
+	<string name="pref_expert_mode_summary_on">Using Android programming lingo.</string>
+	<string name="pref_expert_mode_summary_off">Using simpler terms.</string>
+	<string name="pref_is_low_ram">Low-RAM Status</string>
+	<string name="pref_this_is_low_ram">This IS a Low RAM Device!</string>
+	<string name="pref_not_is_low_ram">This is NOT a Low RAM Device!</string>
+	<string name="pref_auto_is_low_ram">Automatic Low RAM detection.</string>
+	<string name="pref_default_is_low_ram">Default detection mode</string>
+	<string name="pref_info_is_low_ram">Info</string>
+	<string name="pref_info_is_low_ram_summary_expert">Info about isLowRamDevice()</string>
+	<string name="pref_info_is_low_ram_summary">Info about this app</string>
+	<string name="pref_info_is_low_ram_msg">This app toggles a few lines of code that was added in KitKat used by some
+		apps to detect if a device is high-end or low-end and can use that to optimize
+		it for the phone\'s less powerful stats.\nThis may have a major effect (results
+		not guaranteed) that can speed up some apps when enabled, and allow you to use
+		more features in those in trade for performance.</string>
+	<string name="pref_info_is_low_ram_msg_expert">ActivityManager.isLowRamDevice() is a method introduced in Android 4.4 KitKat.
+		It is used by some newer apps to enable simple or limited features to
+		prevent slowing down an entry-level Android device and is flagged using a line in build.prop.\n\n
+		This was added into the Android Support Library as ActivtyManagerCompat.isLowRamDevice().\n\n
+		HOWEVER, it will always return false if you are on Jelly Bean (4.3) or below. This forces the 
+		isLowRamDevice() to either return the default value, true, or false.
+		When true, you can allow apps optimized for isLowRamDevice() to use the trimmed-down features
+		which can improve performance, or if false, allows those said apps to load all features in trade
+		for less performance.\n\nSee the developer docs for more info.
+	</string>
+	<string name="pref_info_is_low_ram_javadoc">Documentation</string>
+	<string name="javadoc_url" translateable="false">http://developer.android.com/reference/android/support/v4/app/ActivityManagerCompat.html#isLowRamDevice(android.app.ActivityManager)</string>
+	<string name="pref_current_result">Current result</string>
+
+</resources>
