@@ -1,6 +1,8 @@
 # Xposed-LowRamDevice
 Is your device a low RAM device? You decide! Requires Xposed.
 
+[Download on Xposed](https://repo.xposed.info/module/com.devin.islowramdevice)
+
 ###How it works:
 This all revolves around KitKat's new feature,
 [`ActivityManager.isLowRamDevice();`](http://developer.android.com/reference/android/app/ActivityManager.html#isLowRamDevice())
