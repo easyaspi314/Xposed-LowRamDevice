@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Low RAM Device</string>
+    <string name="app_name">Xposed-LowRamDevice</string>
 	<string name="app_description">Is your phone a low-ram device? You decide!</string>
     <string name="pref_expert_mode">Expert Mode</string>
 	<string name="pref_expert_mode_summary_on">Using Android programming lingo.</string>
