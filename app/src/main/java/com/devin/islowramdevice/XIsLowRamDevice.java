@@ -18,7 +18,7 @@ public class XIsLowRamDevice implements IXposedHookLoadPackage {
 
 	private String mode;
 	@Override
-	public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+	public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
 		XSharedPreferences prefs = new XSharedPreferences("com.devin.islowramdevice");
 		mode = prefs.getString("is_low_ram", "default");
 
@@ -38,6 +38,7 @@ public class XIsLowRamDevice implements IXposedHookLoadPackage {
 
 						@Override
 						protected Object replaceHookedMethod(XC_MethodHook.MethodHookParam p1) throws Throwable {
+							log(lpparam);
 							if (mode.equals("true"))
 								return true;
 							else
@@ -48,6 +49,7 @@ public class XIsLowRamDevice implements IXposedHookLoadPackage {
 
 						@Override
 						protected Object replaceHookedMethod(XC_MethodHook.MethodHookParam p1) throws Throwable {
+							log(lpparam);
 							if (mode.equals("true"))
 								return true;
 							else
@@ -57,14 +59,32 @@ public class XIsLowRamDevice implements IXposedHookLoadPackage {
 				/**
 				 * {@see https://github.com/android/platform_frameworks_support/blob/master/v4/kitkat/android/support/v4/app/ActivityManagerCompatKitKat.java#L22}
 				 */
-				findAndHookMethod(amCompatKK, "isLowRamDevice", ActivityManager.class, new XC_MethodReplacement() {
+				findAndHookMethod(amCompatKK, "isLowRamDevice", ActivityManager.class /* am */, new XC_MethodReplacement() {
 
 						@Override
 						protected Object replaceHookedMethod(XC_MethodHook.MethodHookParam p1) throws Throwable {
+							log(lpparam);
 							if (mode.equals("true"))
 								return true;
 							else
 								return false;
+						}
+					});
+				/**
+				 * Hook SystemProperties.get(String, String) to ensure we get the result we want. <i>Obviously</i>, we don't want to replace the whole method,
+				 * that would be <u><b>INCREDIBLY</b></u> stupid. Seriously. 
+				 */
+				findAndHookMethod("android.os.SystemProperties", lpparam.classLoader, "get", String.class /* key */, String.class /* def */, new XC_MethodHook() {
+
+						@Override
+						protected void beforeHookedMethod(XC_MethodHook.MethodHookParam p1) throws Throwable {
+							if (((String) p1.args[0] /* key */).equals("ro.config.low_ram") {
+								log(lpparam);
+								if (mode.equals("true"))
+									p1.setResult(true);
+								else
+									p1.setResult(false);
+							}
 						}
 					});
 			}
@@ -72,10 +92,11 @@ public class XIsLowRamDevice implements IXposedHookLoadPackage {
 			/**
 				 * {@see https://github.com/android/platform_frameworks_support/blob/master/v4/java/android/support/v4/app/ActivityManagerCompat.java#L38}
 			 */
-				findAndHookMethod(amCompat, "isLowRamDevice", ActivityManager.class, new XC_MethodReplacement() {
+				findAndHookMethod(amCompat, "isLowRamDevice", ActivityManager.class /* am */, new XC_MethodReplacement() {
 
 						@Override
 						protected Object replaceHookedMethod(XC_MethodHook.MethodHookParam p1) throws Throwable {
+							log(lpparam);
 							if (mode.equals("true"))
 								return true;
 							else
@@ -93,12 +114,14 @@ public class XIsLowRamDevice implements IXposedHookLoadPackage {
 				// We will log if we our own app throws it, because the 
 				// v4 support lib should be included. 
 				if (lpparam.packageName.equals("com.devin.islowramdevice")) {
-					XposedBridge.log("**** ERROR: Low-Ram Device ****\n");
+					XposedBridge.log("**** ERROR: Xposed-LowRamDevice ****\n");
 					XposedBridge.log(t.getStackTrace().toString());
 				}
 				return;
 			}
 		}
 	}
-
+	private void log(XC_LoadPackage.LoadPackageParam lpparam) {
+		XposedBridge.log("Xposed-LowRamDevice: Got " + lpparam.packageName);
+	}
 }
