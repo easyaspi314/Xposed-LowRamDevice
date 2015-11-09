@@ -4,7 +4,7 @@
     <string name="app_name">Xposed-LowRamDevice</string>
 	<string name="app_description">Is your phone a low-ram device? You decide!</string>
     <string name="pref_expert_mode">Expert Mode</string>
-	<string name="pref_expert_mode_summary_on">Using Android programming lingo.</string>
+	<string name="pref_expert_mode_summary_on">Using advanced terms.</string>
 	<string name="pref_expert_mode_summary_off">Using simpler terms.</string>
 	<string name="pref_is_low_ram">Low-RAM Status</string>
 	<string name="pref_this_is_low_ram">This IS a Low RAM Device!</string>
@@ -21,9 +21,9 @@
 		more features in those in trade for performance.</string>
 	<string name="pref_info_is_low_ram_msg_expert">ActivityManager.isLowRamDevice() is a method introduced in Android 4.4 KitKat.
 		It is used by some newer apps to enable simple or limited features to
-		prevent slowing down an entry-level Android device and is flagged using a line in build.prop.\n\n
-		This was added into the Android Support Library as ActivtyManagerCompat.isLowRamDevice().\n\n
-		HOWEVER, it will always return false if you are on Jelly Bean (4.3) or below. This forces the 
+		prevent slowing down an entry-level Android device and is flagged using a line in build.prop.\n
+		\nThis was added into the Android Support Library as ActivtyManagerCompat.isLowRamDevice().\n
+		\nHOWEVER, it will always return false if you are on Jelly Bean (4.3) or below. This forces the 
 		isLowRamDevice() to either return the default value, true, or false.
 		When true, you can allow apps optimized for isLowRamDevice() to use the trimmed-down features
 		which can improve performance, or if false, allows those said apps to load all features in trade

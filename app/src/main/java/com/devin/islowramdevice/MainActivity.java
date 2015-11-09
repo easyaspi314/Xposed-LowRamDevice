@@ -10,14 +10,16 @@ import android.support.v4.app.ActivityManagerCompat;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.PorterDuff;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.graphics.drawable.Drawable;
 import android.content.res.TypedArray;
 import android.widget.TextView;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.widget.FrameLayout;
+
+import java.io.File;
+import java.io.Scanner;
 
 public class MainActivity extends PreferenceActivity {
     
@@ -56,7 +58,7 @@ public class MainActivity extends PreferenceActivity {
                         // Show the icon on KK and below.
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 
-                            Drawable drawable = getResources().getDrawable(android.R.drawable.ic_dialog_info);
+                            Drawable drawable = DrawableCompat.wrap(getResources().getDrawable(android.R.drawable.ic_dialog_info));
                             // Tint the icon on the light dialogs of Holo Light so they don't look awkward.
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                                 int iconColor = 0x222222;
@@ -69,7 +71,7 @@ public class MainActivity extends PreferenceActivity {
 								finally { 
 								themeArray.recycle();
 							}
-                            drawable.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
+                            DrawableCompat.setTint(drawable, iconColor);
                             }
                         builder.setIcon(drawable);
                         }
@@ -86,32 +88,18 @@ public class MainActivity extends PreferenceActivity {
             pref_status.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference p1) {
-                    String msg = "";
-                    msg += "<font color=\"#0096ff\">ActivityManager</font> <font color=\"black\">am </font><font color=\"#0096ff\">= (ActivityManager)</font> <font color=\"black\">getSystemService</font><font color=\"#0096ff\">(Context.</font><font color=\"black\">ACTIVITY_SERVICE</font><font color=\"#0096ff\">);</font><br>";
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            msg += "<font color=\"black\">am</font><font color=\"#0096ff\">.</font>isLowRamDevice<font color=\"#0096ff\">() =</font> <font color=\"#bc0000\">" + (KitKatHelper.isLowRamDevice(am) ? "true" : "false") + "</font><font color=\"#2c82c8\">;</font><p>";
-                        }
-                        
-                        msg += "<font color=\"#0096ff\">ActivityManagerCompat.</font><font color=\"black\">isLowRamDevice</font><font color=\"#0096ff\">(</font><font color=\"black\">am</font><font color=\"#0096ff\">) =</font> <font color=\"#bc0000\">" + (ActivityManagerCompat.isLowRamDevice(am) ? "true" : "false") + "</font><font color=\"#0096ff\">;</font>";
-
-                        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
-                            .setTitle(getString(R.string.pref_current_result) + ":")
-                            .setMessage("Loading…")
-                            .setPositiveButton(android.R.string.ok, null)
-                            .show();
-
-                        TextView tv = new TextView(MainActivity.this);
-                        tv.setTypeface(Typeface.MONOSPACE);
-                        tv.setText(Html.fromHtml(msg));
-                        tv.setHorizontallyScrolling(true);
-
-                        FrameLayout layout = (FrameLayout) dialog.findViewById(android.R.id.custom);
-                        layout.setBackgroundColor(android.R.color.white);
-                        layout.addView(tv);
-                        dialog.setView(layout);
+                    String msg = XIsLowRamDevice.isLowRamDevice(MainActivity.this, MainActivity.this.getClassLoader());
+                    TextView tv = new TextView(MainActivity.this);
+                    tv.setHorizontallyScrolling(true);
+                    
+                    AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+                        .setTitle(getString(R.string.pref_current_result) + ":")
+                        .setMessage(msg)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show();
                         
                     return true;
-                    }
+                }
         });
         getPreferenceScreen().addPreference(pref_status);
         final ListPreference pref_is_low_ram = (ListPreference) findPreference("is_low_ram");
@@ -127,5 +115,11 @@ public class MainActivity extends PreferenceActivity {
 
     private boolean isExpertMode() {
         return getPreferenceManager().getDefaultSharedPreferences(this).getBoolean("expert_mode", false);
+    }
+    /**
+     * Checking whether the module is enabled.
+     */
+    private boolean isModuleEnabled() {
+        return false;
     }
 }
